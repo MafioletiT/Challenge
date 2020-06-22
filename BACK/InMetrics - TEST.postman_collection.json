@@ -1,0 +1,168 @@
+{
+	"info": {
+		"_postman_id": "156125cb-3bb2-4afb-8533-d56e6ffa5e86",
+		"name": "InMetrics - TEST",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Consult the users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2d8dfa82-8860-4e46-8f6b-e8513a482b94",
+						"exec": [
+							"pm.test('Status code is 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/users?page=2",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create new user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "41923995-b695-4345-a56f-c2f0dac8f9ae",
+						"exec": [
+							"/** It's possible to use mocks and random fake data, but I'm using inserts to accurately validate them */\r",
+							"const PROPERTY_TYPES = {\r",
+							"    ARRAY: 'array',\r",
+							"    BOOLEAN: 'boolean',\r",
+							"    INTEGER: 'integer',\r",
+							"    OBJECT: 'object',\r",
+							"    STRING: 'string'\r",
+							"};\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"const schema = {\r",
+							"    type: PROPERTY_TYPES.OBJECT,\r",
+							"    properties: {\r",
+							"        email: {\r",
+							"            type: PROPERTY_TYPES.STRING,\r",
+							"        },\r",
+							"        first_name: {\r",
+							"            type: PROPERTY_TYPES.STRING,\r",
+							"        },\r",
+							"        last_name: {\r",
+							"            type: PROPERTY_TYPES.STRING,\r",
+							"        },\r",
+							"        avatar: {\r",
+							"            type: PROPERTY_TYPES.STRING,\r",
+							"        },\r",
+							"        id: {\r",
+							"            type: PROPERTY_TYPES.STRING,\r",
+							"        },\r",
+							"        createdAt: {\r",
+							"            type: PROPERTY_TYPES.STRING,\r",
+							"        },\r",
+							"    },\r",
+							"};\r",
+							"\r",
+							"pm.test('Status code is 201', () => {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test('Response body is match with schema', () => {\r",
+							"    pm.response.to.have.jsonSchema(schema);\r",
+							"});\r",
+							"\r",
+							"pm.test('Response body is correct', () => {\r",
+							"    pm.expect(jsonData.email).to.be.eql(\"tais.mafioleti@test.com\");\r",
+							"    pm.expect(jsonData.first_name).to.be.eql('Taís');\r",
+							"    pm.expect(jsonData.last_name).to.be.eql('Mafioleti');\r",
+							"    pm.expect(jsonData.avatar).to.be.eql('https://pbs.twimg.com/profile_images/1274082256290828288/xlW7qFpg_400x400.jpg');\r",
+							"    pm.expect(jsonData.id).to.exist;\r",
+							"    pm.expect(jsonData.createdAt).to.exist;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "bb7e4183-f847-44ec-91e6-82773d79cfe7",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"tais.mafioleti@test.com\",\r\n    \"first_name\": \"Taís\",\r\n    \"last_name\": \"Mafioleti\",\r\n    \"avatar\": \"https://pbs.twimg.com/profile_images/1274082256290828288/xlW7qFpg_400x400.jpg\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/users",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
